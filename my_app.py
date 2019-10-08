@@ -6,6 +6,8 @@ TOKEN = os.environ["TOKEN"]
 
 bot = telebot.TeleBot(TOKEN, threaded=False)
 
+telebot.apihelper.proxy = {'https': 'socks5h://geek:socks@t.geekclass.ru:7777'}
+
 bot.set_webhook(url="https://<my-hp-app.herokuapp.com/bot")
 
 app = flask.Flask(__name__)
