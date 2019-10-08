@@ -47,6 +47,10 @@ def open_file_to_model():
     # TODO сделать поттера в джсоне и подгружать оттудда
     return text_model
 
+bot.remove_webhook()
+bot.set_webhook(url="https://my-hp-app.herokuapp.com/bot")
+app = flask.Flask(__name__)
+
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
 
@@ -80,6 +84,32 @@ def reply(message):
                'предложение, попробуйте еще разок'
     user = message.chat.id
     bot.send_message(user, 'Прошу, ваше предложение:\n ' + text)
+
+@app.route("/", methods=['GET', 'HEAD'])
+def index():
+    return 'ok'
+
+@app.route("/bot", methods=['POST'])
+def webhook():
+    if flask.request.headers.get('content-type') == 'application/json':
+        json_string = flask.request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        # written with help from Ivan Torubarov
+        try:
+            webhook_info = bot.get_webhook_info()
+            if webhook_info.pending_update_count > 1:
+                print('Evaded unwanted updates: ',
+                      str(webhook_info.pending_update_count))
+                return ''
+            else:
+                print('Updating')
+                bot.process_new_updates([update])
+        except Exception as e:
+            print('%s occured' % str(e))
+            pass
+        return ''
+    else:
+        flask.abort(403)
 
 bot.polling(none_stop = True)
 
