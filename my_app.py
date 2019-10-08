@@ -1,8 +1,6 @@
 import markovify
 import re
-from num2words import num2words
 import telebot
-import config
 import flask
 
 bot = telebot.TeleBot("936409992:AAFSFcJDTbBGEZZIeWu5KydMpvM-HdCXjCk")
@@ -16,7 +14,6 @@ def text_correction(text):
     text = text.replace('…', '.')
     no_tags = re.compile('<.*?>')
     text = re.sub(no_tags, '', text)
-    non_words = re.compile(r'[^\.a-zA-Z0-9_\s]')
     text.lower()
     return text
 
