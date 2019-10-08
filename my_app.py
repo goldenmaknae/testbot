@@ -1,4 +1,10 @@
+import markovify
+import re
+from num2words import num2words
 import telebot
+import config
+import flask
+import os
 
 bot = telebot.TeleBot("956616668:AAFvXQ3CJZXE644ZmzTYQNRnm2ko4Uao0kY")
 
@@ -76,3 +82,9 @@ def reply(message):
     bot.send_message(user, 'Прошу, ваше предложение:\n ' + text)
 
 bot.polling(none_stop = True)
+
+if __name__ == '__main__':
+    import os
+    app.debug = True
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
