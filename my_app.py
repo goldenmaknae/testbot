@@ -8,12 +8,12 @@ bot = telebot.TeleBot(TOKEN, threaded=False)
 
 telebot.apihelper.proxy = {'https': 'socks5h://geek:socks@t.geekclass.ru:7777'}
 
-bot.set_webhook(url="https://<my-hp-app.herokuapp.com/bot")
+bot.set_webhook(url='https://<my-hp-app.herokuapp.com/bot')
 
 app = flask.Flask(__name__)
 
 def teach_model():
-	with open("potter.txt", encoding="windows-1251") as f:
+	with open('potter.txt', encoding="windows-1251") as f:
 		text = f.read()
 		text = text.replace('\n', '')
 		text = text.replace('\r', '')
