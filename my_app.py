@@ -3,11 +3,17 @@ import re
 from num2words import num2words
 import telebot
 import config
-from flask import Flask
+import flask
 import os
+TOKEN = os.environ["TOKEN"]
 
 bot = telebot.TeleBot("956616668:AAFvXQ3CJZXE644ZmzTYQNRnm2ko4Uao0kY")
 
+telebot.apihelper.proxy = {'https': 'socks5h://geek:socks@t.geekclass.ru:7777'}
+
+
+# модуль для форматирования текста в облегченный и более правильный
+# вид для обучения модели
 def correct_text(text):
     # компиляция регулярных выражений для поиска при загрузке пользователем
     # более одного документа для создания модели
@@ -47,10 +53,13 @@ def open_file_to_model():
     # TODO сделать поттера в джсоне и подгружать оттудда
     return text_model
 
+
 bot.remove_webhook()
-bot.set_webhook(url="https://my-hp-app.herokuapp.com/bot")
+bot.set_webhook(url="https://harrybotr.herokuapp.com/bot")
 app = flask.Flask(__name__)
 
+
+# привет всем говорит бот
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
 
@@ -85,9 +94,13 @@ def reply(message):
     user = message.chat.id
     bot.send_message(user, 'Прошу, ваше предложение:\n ' + text)
 
+
+# Лиза Леонова очень мило поделилась со мной скриптом,
+# который позволяет хостить на хероку через вебхуки и не переживать:
 @app.route("/", methods=['GET', 'HEAD'])
 def index():
     return 'ok'
+
 
 @app.route("/bot", methods=['POST'])
 def webhook():
@@ -114,7 +127,6 @@ def webhook():
 bot.polling(none_stop = True)
 
 if __name__ == '__main__':
-    import os
     app.debug = True
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
