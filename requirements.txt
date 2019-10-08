@@ -1,5 +1,5 @@
-Flask==1.1.1
 config==0.4.2
+Flask==1.1.1
 markovify==0.7.2
 num2words==0.5.10
 PySocks==1.7.1

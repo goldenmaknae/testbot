@@ -3,7 +3,7 @@ import re
 from num2words import num2words
 import telebot
 import config
-import flask
+from flask import Flask
 import os
 
 bot = telebot.TeleBot("956616668:AAFvXQ3CJZXE644ZmzTYQNRnm2ko4Uao0kY")
